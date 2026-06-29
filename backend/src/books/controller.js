@@ -116,4 +116,128 @@ async function createBook(req, res) {
   }
 }
 
-module.exports = { getBooks, createBook };
+async function getBook(req, res) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({ error: 'id must be a positive integer' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM books WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    return res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Database error:', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+async function updateBook(req, res) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({ error: 'id must be a positive integer' });
+  }
+
+  const { user_id, title, author, status, rating } = req.body;
+
+  // Validate fields if provided
+  if (user_id !== undefined && user_id !== null) {
+    if (!Number.isInteger(Number(user_id)) || Number(user_id) < 1) {
+      return res.status(400).json({ error: 'user_id must be a positive integer' });
+    }
+  }
+
+  if (title !== undefined && title !== null) {
+    if (typeof title !== 'string' || title.trim().length === 0) {
+      return res.status(400).json({ error: 'title must be a non-empty string' });
+    }
+  }
+
+  if (status !== undefined && status !== null) {
+    if (!VALID_STATUSES.includes(status)) {
+      return res.status(400).json({
+        error: `Invalid status. Must be one of: ${VALID_STATUSES.join(', ')}`,
+      });
+    }
+  }
+
+  if (rating !== undefined && rating !== null) {
+    const ratingNum = Number(rating);
+    if (!Number.isInteger(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+      return res.status(400).json({ error: 'rating must be an integer between 1 and 5' });
+    }
+  }
+
+  // At least one field must be provided
+  if (user_id === undefined && title === undefined && author === undefined && status === undefined && rating === undefined) {
+    return res.status(400).json({ error: 'At least one field (user_id, title, author, status, rating) must be provided' });
+  }
+
+  // Build dynamic UPDATE query
+  const setClauses = [];
+  const params = [];
+  let paramIndex = 1;
+
+  if (user_id !== undefined) {
+    setClauses.push(`user_id = $${paramIndex++}`);
+    params.push(user_id);
+  }
+  if (title !== undefined) {
+    setClauses.push(`title = $${paramIndex++}`);
+    params.push(title.trim());
+  }
+  if (author !== undefined) {
+    setClauses.push(`author = $${paramIndex++}`);
+    params.push(author);
+  }
+  if (status !== undefined) {
+    setClauses.push(`status = $${paramIndex++}`);
+    params.push(status);
+  }
+  if (rating !== undefined) {
+    setClauses.push(`rating = $${paramIndex++}`);
+    params.push(rating);
+  }
+
+  params.push(id);
+  const query = `UPDATE books SET ${setClauses.join(', ')} WHERE id = $${paramIndex} RETURNING *`;
+
+  try {
+    const result = await pool.query(query, params);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    return res.json(result.rows[0]);
+  } catch (err) {
+    if (err.code === '23503') {
+      return res.status(400).json({ error: 'user_id does not reference an existing user' });
+    }
+    console.error('Database error:', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+async function deleteBook(req, res) {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id < 1) {
+    return res.status(400).json({ error: 'id must be a positive integer' });
+  }
+
+  try {
+    const result = await pool.query('DELETE FROM books WHERE id = $1 RETURNING *', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+    return res.json({ message: 'Book deleted', book: result.rows[0] });
+  } catch (err) {
+    console.error('Database error:', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { getBooks, createBook, getBook, updateBook, deleteBook };
