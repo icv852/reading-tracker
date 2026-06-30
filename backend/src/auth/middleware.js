@@ -28,11 +28,12 @@ async function requireAuth(req, res, next) {
       return res.status(401).json({ error: 'Invalid or expired session' });
     }
 
-    // Attach user to request so downstream handlers can use it
+    // Attach user and token hash to request so downstream handlers can use them
     req.user = {
       id: result.rows[0].user_id,
       email: result.rows[0].email,
     };
+    req.tokenHash = tokenHash;
 
     next();
   } catch (err) {

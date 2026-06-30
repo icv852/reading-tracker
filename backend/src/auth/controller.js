@@ -88,4 +88,14 @@ async function loginUser(req, res) {
   }
 }
 
-module.exports = { registerUser, loginUser };
+async function logoutUser(req, res) {
+  try {
+    await pool.query('DELETE FROM sessions WHERE token_hash = $1', [req.tokenHash]);
+    return res.status(200).json({ message: 'Logged out successfully' });
+  } catch (err) {
+    console.error('Logout error:', err);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+}
+
+module.exports = { registerUser, loginUser, logoutUser };
