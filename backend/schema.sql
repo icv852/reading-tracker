@@ -127,6 +127,42 @@ CREATE TABLE public.users (
 ALTER TABLE public.users OWNER TO vic;
 
 --
+-- Name: sessions; Type: TABLE; Schema: public; Owner: vic
+--
+
+CREATE TABLE public.sessions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    token_hash text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE public.sessions OWNER TO vic;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: vic
+--
+
+CREATE SEQUENCE public.sessions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.sessions_id_seq OWNER TO vic;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: vic
+--
+
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: vic
 --
 
@@ -168,6 +204,8 @@ ALTER TABLE ONLY public.notes ALTER COLUMN id SET DEFAULT nextval('public.notes_
 
 ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
 
 --
 -- Name: books books_pkey; Type: CONSTRAINT; Schema: public; Owner: vic
@@ -200,6 +238,9 @@ ALTER TABLE ONLY public.users
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
 
 --
 -- Name: books books_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: vic
@@ -215,6 +256,9 @@ ALTER TABLE ONLY public.books
 
 ALTER TABLE ONLY public.notes
     ADD CONSTRAINT notes_book_id_fkey FOREIGN KEY (book_id) REFERENCES public.books(id) ON DELETE CASCADE;
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
