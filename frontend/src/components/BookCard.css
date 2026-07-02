@@ -1,0 +1,53 @@
+.book-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: box-shadow 0.15s;
+}
+
+.book-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-card-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+}
+
+.book-card-author {
+  margin: 0 0 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.book-card-status {
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.status-want_to_read {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.status-reading {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.status-finished {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.book-card-rating {
+  color: #f59e0b;
+  font-size: 0.95rem;
+}
