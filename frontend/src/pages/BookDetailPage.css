@@ -1,0 +1,157 @@
+.book-detail {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #555;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.book-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
+.book-detail-header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.book-detail-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.book-detail-author {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0 0 1rem;
+}
+
+.book-detail-meta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.book-detail-rating {
+  color: #f59e0b;
+  font-size: 1.1rem;
+}
+
+.book-detail-date {
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.notes-section {
+  border-top: 1px solid #e0e0e0;
+  padding-top: 1.5rem;
+}
+
+.notes-section h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+.edit-note-form {
+  background: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.edit-note-form h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+}
+
+/* Note form styles */
+.note-form {
+  margin-bottom: 1.5rem;
+}
+
+.note-form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.note-form-footer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.input-page {
+  width: 120px;
+  padding: 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.note-form-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Note item styles */
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.note-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+}
+
+.note-item-body {
+  flex: 1;
+}
+
+.note-item-content {
+  margin: 0 0 0.35rem;
+  white-space: pre-wrap;
+}
+
+.note-item-page,
+.note-item-date {
+  font-size: 0.8rem;
+  color: #999;
+  margin-right: 0.75rem;
+}
+
+.note-item-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}

@@ -1,0 +1,36 @@
+.form-page {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.form-page h1 {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+}
+
+.book-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.book-form input,
+.book-form select {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}

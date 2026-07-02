@@ -25,11 +25,16 @@ services:
       DATABASE_PASSWORD: ${PG_PASSWORD}
       DATABASE_NAME: reading_tracker
       PORT: 3000
-    ports:
-      - "3000:3000"
     depends_on:
       db:
         condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
 
 volumes:
   pgdata:
